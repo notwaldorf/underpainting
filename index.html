@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Underpainting — value and shape studies</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="bar">
+  <span class="mark">
+    <span class="ramp" aria-hidden="true"><i></i><i></i><i></i></span>
+    <span class="wordmark">Underpainting</span>
+  </span>
+
+  <div class="bar-end">
+    <button class="ghost" id="replace" disabled>Replace image</button>
+    <button class="ghost" id="save" disabled>Save PNG</button>
+  </div>
+</header>
+
+<div class="shell">
+  <main class="stage" id="stage">
+
+    <div class="pair hidden" id="pair">
+      <div class="pane"><canvas id="viewO"></canvas><span class="cap">Original</span></div>
+      <div class="pane"><canvas id="viewA"></canvas><span class="cap">Values</span></div>
+      <div class="pane"><canvas id="viewB"></canvas><span class="cap">Simplified</span></div>
+    </div>
+
+    <div class="drop" id="drop">
+      <h1>Drop a reference photo here</h1>
+      <p>Your reference beside a three-value study and a simplified block-in. Your image is processed on this device and never uploaded.</p>
+      <button class="pick" id="pick">Choose an image</button>
+      <p class="fine">JPG, PNG, WebP · large files are scaled to 1400px for speed</p>
+    </div>
+
+    <div class="busy hidden" id="busy"><span class="pulse"></span><span id="busy-text">Working</span></div>
+  </main>
+
+  <aside class="rail">
+    <div class="grp">
+      <div class="grp-head">
+        <h2>Details</h2>
+        <span class="readout" id="detail-out">539 shapes</span>
+      </div>
+      <input type="range" id="detail" min="1" max="14" step="1" value="10" aria-label="Level of detail for the simplified view">
+      <div class="ticks"><span>Fewer, bigger shapes</span><span>More</span></div>
+      <p class="note">Changes the simplified view only. The value study is always three tones.</p>
+    </div>
+
+    <div class="grp">
+      <div class="grp-head"><h2>Smoothing</h2></div>
+      <div class="seg" id="smooth" role="group" aria-label="Smoothing amount for both views">
+        <button data-r="0" aria-pressed="true">None</button>
+        <button data-r="5" aria-pressed="false">Light</button>
+        <button data-r="14" aria-pressed="false">Medium</button>
+        <button data-r="28" aria-pressed="false">Strong</button>
+      </div>
+      <p class="note">Feeds both studies the same softened image, so what you see on one lines up with the other.</p>
+    </div>
+  </aside>
+</div>
+
+<input type="file" id="file" accept="image/*" hidden>
+
+<script src="app.js"></script>
+</body>
+</html>
