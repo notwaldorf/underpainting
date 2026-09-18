@@ -644,5 +644,20 @@
     }, 'image/png');
   });
 
+  /* ---------- full screen ---------- */
+  /* Each pane can be blown up on its own; the caption stays behind and Esc
+     (or the button, now a collapse icon) brings it back. */
+  Array.prototype.forEach.call(document.querySelectorAll('.fs'), function (btn) {
+    btn.addEventListener('click', function () {
+      var frame = btn.closest('.frame');
+      var current = document.fullscreenElement || document.webkitFullscreenElement;
+      if (current) {
+        (document.exitFullscreen || document.webkitExitFullscreen).call(document);
+      } else if (frame) {
+        (frame.requestFullscreen || frame.webkitRequestFullscreen).call(frame);
+      }
+    });
+  });
+
   updateDetailOut();
 })();

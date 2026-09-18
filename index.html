@@ -24,35 +24,7 @@
 </header>
 
 <div class="shell">
-  <main class="stage" id="stage">
-
-    <div class="pair hidden" id="pair">
-      <div class="pane"><canvas id="viewO"></canvas><span class="cap">Original</span></div>
-      <div class="pane"><canvas id="viewA"></canvas><span class="cap">Values</span></div>
-      <div class="pane"><canvas id="viewB"></canvas><span class="cap">Simplified</span></div>
-    </div>
-
-    <div class="drop" id="drop">
-      <h1>Drop a reference photo here</h1>
-      <p>Your reference beside a three-value study and a simplified block-in. Your image is processed on this device and never uploaded.</p>
-      <button class="pick" id="pick">Choose an image</button>
-      <p class="fine">JPG, PNG, WebP · large files are scaled to 1400px for speed</p>
-    </div>
-
-    <div class="busy hidden" id="busy"><span class="pulse"></span><span id="busy-text">Working</span></div>
-  </main>
-
   <aside class="rail">
-    <div class="grp">
-      <div class="grp-head">
-        <h2>Details</h2>
-        <span class="readout" id="detail-out">539 shapes</span>
-      </div>
-      <input type="range" id="detail" min="1" max="14" step="1" value="10" aria-label="Level of detail for the simplified view">
-      <div class="ticks"><span>Fewer, bigger shapes</span><span>More</span></div>
-      <p class="note">Changes the simplified view only. The value study is always three tones.</p>
-    </div>
-
     <div class="grp">
       <div class="grp-head"><h2>Smoothing</h2></div>
       <div class="seg" id="smooth" role="group" aria-label="Smoothing amount for both views">
@@ -64,6 +36,56 @@
       <p class="note">Feeds both studies the same softened image, so what you see on one lines up with the other.</p>
     </div>
   </aside>
+
+  <main class="stage" id="stage">
+
+    <div class="pair hidden" id="pair">
+      <div class="pane">
+        <div class="frame">
+          <canvas id="viewO"></canvas>
+          <button class="fs" type="button" aria-label="View Original full screen" title="Full screen">
+            <svg class="ic ic-expand" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 3H5a2 2 0 0 0-2 2v3"/><path d="M16 3h3a2 2 0 0 1 2 2v3"/><path d="M8 21H5a2 2 0 0 1-2-2v-3"/><path d="M16 21h3a2 2 0 0 0 2-2v-3"/></svg>
+            <svg class="ic ic-collapse" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 3v3a2 2 0 0 1-2 2H3"/><path d="M21 8h-3a2 2 0 0 1-2-2V3"/><path d="M3 16h3a2 2 0 0 1 2 2v3"/><path d="M16 21v-3a2 2 0 0 1 2-2h3"/></svg>
+          </button>
+        </div>
+        <span class="cap">Original</span>
+      </div>
+      <div class="pane">
+        <div class="frame">
+          <canvas id="viewA"></canvas>
+          <button class="fs" type="button" aria-label="View Values full screen" title="Full screen">
+            <svg class="ic ic-expand" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 3H5a2 2 0 0 0-2 2v3"/><path d="M16 3h3a2 2 0 0 1 2 2v3"/><path d="M8 21H5a2 2 0 0 1-2-2v-3"/><path d="M16 21h3a2 2 0 0 0 2-2v-3"/></svg>
+            <svg class="ic ic-collapse" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 3v3a2 2 0 0 1-2 2H3"/><path d="M21 8h-3a2 2 0 0 1-2-2V3"/><path d="M3 16h3a2 2 0 0 1 2 2v3"/><path d="M16 21v-3a2 2 0 0 1 2-2h3"/></svg>
+          </button>
+        </div>
+        <span class="cap">Values</span>
+      </div>
+      <div class="pane has-ctl">
+        <div class="pane-ctl">
+          <label for="detail">Detail</label>
+          <input type="range" id="detail" min="1" max="14" step="1" value="10" aria-label="Level of detail for the simplified view">
+          <span class="readout" id="detail-out">539 shapes</span>
+        </div>
+        <div class="frame">
+          <canvas id="viewB"></canvas>
+          <button class="fs" type="button" aria-label="View Simplified full screen" title="Full screen">
+            <svg class="ic ic-expand" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 3H5a2 2 0 0 0-2 2v3"/><path d="M16 3h3a2 2 0 0 1 2 2v3"/><path d="M8 21H5a2 2 0 0 1-2-2v-3"/><path d="M16 21h3a2 2 0 0 0 2-2v-3"/></svg>
+            <svg class="ic ic-collapse" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 3v3a2 2 0 0 1-2 2H3"/><path d="M21 8h-3a2 2 0 0 1-2-2V3"/><path d="M3 16h3a2 2 0 0 1 2 2v3"/><path d="M16 21v-3a2 2 0 0 1 2-2h3"/></svg>
+          </button>
+        </div>
+        <span class="cap">Simplified</span>
+      </div>
+    </div>
+
+    <div class="drop" id="drop">
+      <h1>Drop a reference photo here</h1>
+      <p>Your reference beside a three-value study and a simplified block-in. Your image is processed on this device and never uploaded.</p>
+      <button class="pick" id="pick">Choose an image</button>
+      <p class="fine">JPG, PNG, WebP · large files are scaled to 1400px for speed</p>
+    </div>
+
+    <div class="busy hidden" id="busy"><span class="pulse"></span><span id="busy-text">Working</span></div>
+  </main>
 </div>
 
 <input type="file" id="file" accept="image/*" hidden>
