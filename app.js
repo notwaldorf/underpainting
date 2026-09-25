@@ -411,6 +411,7 @@
 
   var el = {
     stage: document.getElementById('stage'),
+    rail: document.getElementById('rail'),
     pair: document.getElementById('pair'),
     viewO: document.getElementById('viewO'),
     viewA: document.getElementById('viewA'),
@@ -422,8 +423,7 @@
     pick: document.getElementById('pick'),
     replace: document.getElementById('replace'),
     save: document.getElementById('save'),
-    detail: document.getElementById('detail'),
-    detailOut: document.getElementById('detail-out')
+    detail: document.getElementById('detail')
   };
 
   var ctxO = el.viewO.getContext('2d', { willReadFrequently: true });
@@ -452,10 +452,6 @@
   function cappedSegments(level) {
     var cap = state.w ? Math.max(1, Math.floor(state.w * state.h / 16)) : Infinity;
     return Math.min(segmentsFor(level), cap);
-  }
-
-  function updateDetailOut() {
-    el.detailOut.textContent = cappedSegments(state.detail).toLocaleString() + ' shapes';
   }
 
   function setBusy(on) { el.busy.classList.toggle('hidden', !on); }
@@ -526,6 +522,16 @@
   }
 
   /* ---------- layout ---------- */
+  var canvases = [el.viewO, el.viewA, el.viewB];
+  function capCanvases(w, h) {
+    /* Cap the drawn size in pixels. The percentage max-height chain can't
+       resolve through the content-sized flex frames, so without this a tall
+       image overflows the stage and spills up over the controls. */
+    canvases.forEach(function (cv) {
+      if (w == null) { cv.style.maxWidth = ''; cv.style.maxHeight = ''; }
+      else { cv.style.maxWidth = w + 'px'; cv.style.maxHeight = h + 'px'; }
+    });
+  }
   function layoutPair() {
     if (!state.source) return;
     var r = el.stage.getBoundingClientRect();
@@ -540,6 +546,7 @@
                 - (parseFloat(cs.paddingBottom) || 0);
       if (inner > 0) el.pair.style.setProperty('--pane-h', Math.round(inner) + 'px');
       el.pair.classList.remove('stack');
+      capCanvases(null);       // the phone layout sizes images itself
       return;
     }
 
@@ -552,6 +559,8 @@
     var sideBySide = Math.min(((availW - gap * (N - 1)) / N) / iw, (availH - capH) / ih);
     var stacked    = Math.min(availW / iw, ((availH - gap * (N - 1) - N * capH) / N) / ih);
     el.pair.classList.toggle('stack', stacked > sideBySide);
+    var scale = Math.min(1, Math.max(sideBySide, stacked));   // never upscale past 1:1
+    capCanvases(Math.round(iw * scale), Math.round(ih * scale));
   }
   window.addEventListener('resize', layoutPair);
   window.addEventListener('orientationchange', layoutPair);
@@ -575,10 +584,10 @@
 
       el.drop.classList.add('hidden');
       el.pair.classList.remove('hidden');
+      el.rail.classList.remove('hidden');   // controls only make sense with an image
       el.replace.disabled = false;
       el.stage.scrollTop = 0;        // a new image starts at the first pane
       layoutPair();
-      updateDetailOut();
       render(true);
       URL.revokeObjectURL(img.src);
     };
@@ -615,10 +624,25 @@
     render(true);
   });
 
+  /* ---------- sketching grid (off / 3×3 / 4×4), full screen only ---------- */
+  /* State is shared, so all three in-frame pickers stay in sync. */
+  function setGrid(g) {
+    el.pair.classList.toggle('grid-3', g === 3);
+    el.pair.classList.toggle('grid-4', g === 4);
+    Array.prototype.forEach.call(document.querySelectorAll('.grid-ctl button'), function (b) {
+      b.setAttribute('aria-pressed', String(parseInt(b.dataset.g, 10) === g));
+    });
+  }
+  Array.prototype.forEach.call(document.querySelectorAll('.grid-ctl'), function (group) {
+    group.addEventListener('click', function (e) {
+      var btn = e.target.closest('button');
+      if (btn) setGrid(parseInt(btn.dataset.g, 10));
+    });
+  });
+
   /* ---------- detail ---------- */
   el.detail.addEventListener('input', function () {
     state.detail = parseInt(el.detail.value, 10);
-    updateDetailOut();
     render(false, 'B');
   });
 
@@ -658,6 +682,4 @@
       }
     });
   });
-
-  updateDetailOut();
 })();

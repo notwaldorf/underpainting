@@ -24,7 +24,7 @@
 </header>
 
 <div class="shell">
-  <aside class="rail">
+  <aside class="rail hidden" id="rail">
     <div class="grp">
       <div class="grp-head"><h2>Smoothing</h2></div>
       <div class="seg" id="smooth" role="group" aria-label="Smoothing amount for both views">
@@ -33,7 +33,6 @@
         <button data-r="14" aria-pressed="false">Medium</button>
         <button data-r="28" aria-pressed="false">Strong</button>
       </div>
-      <p class="note">Feeds both studies the same softened image, so what you see on one lines up with the other.</p>
     </div>
   </aside>
 
@@ -42,7 +41,15 @@
     <div class="pair hidden" id="pair">
       <div class="pane">
         <div class="frame">
-          <canvas id="viewO"></canvas>
+          <div class="canvas-wrap">
+            <canvas id="viewO"></canvas>
+            <div class="grid-ov" aria-hidden="true"></div>
+          </div>
+          <div class="grid-ctl" role="group" aria-label="Sketching grid overlay">
+            <button data-g="0" aria-pressed="true">Off</button>
+            <button data-g="3" aria-pressed="false">3 × 3</button>
+            <button data-g="4" aria-pressed="false">4 × 4</button>
+          </div>
           <button class="fs" type="button" aria-label="View Original full screen" title="Full screen">
             <svg class="ic ic-expand" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 3H5a2 2 0 0 0-2 2v3"/><path d="M16 3h3a2 2 0 0 1 2 2v3"/><path d="M8 21H5a2 2 0 0 1-2-2v-3"/><path d="M16 21h3a2 2 0 0 0 2-2v-3"/></svg>
             <svg class="ic ic-collapse" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 3v3a2 2 0 0 1-2 2H3"/><path d="M21 8h-3a2 2 0 0 1-2-2V3"/><path d="M3 16h3a2 2 0 0 1 2 2v3"/><path d="M16 21v-3a2 2 0 0 1 2-2h3"/></svg>
@@ -52,7 +59,15 @@
       </div>
       <div class="pane">
         <div class="frame">
-          <canvas id="viewA"></canvas>
+          <div class="canvas-wrap">
+            <canvas id="viewA"></canvas>
+            <div class="grid-ov" aria-hidden="true"></div>
+          </div>
+          <div class="grid-ctl" role="group" aria-label="Sketching grid overlay">
+            <button data-g="0" aria-pressed="true">Off</button>
+            <button data-g="3" aria-pressed="false">3 × 3</button>
+            <button data-g="4" aria-pressed="false">4 × 4</button>
+          </div>
           <button class="fs" type="button" aria-label="View Values full screen" title="Full screen">
             <svg class="ic ic-expand" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 3H5a2 2 0 0 0-2 2v3"/><path d="M16 3h3a2 2 0 0 1 2 2v3"/><path d="M8 21H5a2 2 0 0 1-2-2v-3"/><path d="M16 21h3a2 2 0 0 0 2-2v-3"/></svg>
             <svg class="ic ic-collapse" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 3v3a2 2 0 0 1-2 2H3"/><path d="M21 8h-3a2 2 0 0 1-2-2V3"/><path d="M3 16h3a2 2 0 0 1 2 2v3"/><path d="M16 21v-3a2 2 0 0 1 2-2h3"/></svg>
@@ -61,13 +76,21 @@
         <span class="cap">Values</span>
       </div>
       <div class="pane has-ctl">
-        <div class="pane-ctl">
-          <label for="detail">Detail</label>
-          <input type="range" id="detail" min="1" max="14" step="1" value="10" aria-label="Level of detail for the simplified view">
-          <span class="readout" id="detail-out">539 shapes</span>
-        </div>
         <div class="frame">
-          <canvas id="viewB"></canvas>
+          <div class="canvas-wrap">
+            <canvas id="viewB"></canvas>
+            <div class="grid-ov" aria-hidden="true"></div>
+            <!-- Detail drives only this study, so it rides on the image itself. -->
+            <div class="pane-ctl">
+              <label for="detail">Detail</label>
+              <input type="range" id="detail" min="1" max="14" step="1" value="10" aria-label="Level of detail for the simplified view">
+            </div>
+          </div>
+          <div class="grid-ctl" role="group" aria-label="Sketching grid overlay">
+            <button data-g="0" aria-pressed="true">Off</button>
+            <button data-g="3" aria-pressed="false">3 × 3</button>
+            <button data-g="4" aria-pressed="false">4 × 4</button>
+          </div>
           <button class="fs" type="button" aria-label="View Simplified full screen" title="Full screen">
             <svg class="ic ic-expand" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 3H5a2 2 0 0 0-2 2v3"/><path d="M16 3h3a2 2 0 0 1 2 2v3"/><path d="M8 21H5a2 2 0 0 1-2-2v-3"/><path d="M16 21h3a2 2 0 0 0 2-2v-3"/></svg>
             <svg class="ic ic-collapse" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 3v3a2 2 0 0 1-2 2H3"/><path d="M21 8h-3a2 2 0 0 1-2-2V3"/><path d="M3 16h3a2 2 0 0 1 2 2v3"/><path d="M16 21v-3a2 2 0 0 1 2-2h3"/></svg>
